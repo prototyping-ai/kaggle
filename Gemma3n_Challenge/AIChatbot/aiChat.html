@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gemma Health AI Companion</title>
+<style>
+/* Base styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f6f8fb;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Wrapper */
+.page-wrapper {
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px 20px 100px;
+  box-sizing: border-box;
+}
+
+/* Header */
+.main-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.main-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.main-header p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* Features layout */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+/* Feature cards */
+.feature-card {
+  background: linear-gradient(to bottom right, #e1ecff, #f4f8ff);
+  color: #333;
+  padding: 24px;
+  border-radius: 26px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+  max-width: 600px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+/* Dark Mode Styling */
+.dark-mode .feature-card {
+  background: linear-gradient(to bottom right, #1a1a2b, #2c2c3f);
+  color: #ddd;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Optional: Subtle hover effect */
+.feature-card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+.dark-mode .feature-card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.feature-card h2 {
+  background: linear-gradient(to right, #cce3ff, #e0eeff);
+  color: #1a1a1a;
+  padding: 12px 24px;
+  border-top-left-radius: 36px;
+  border-top-right-radius: 36px;
+  margin: -24px -24px 16px -24px; /* Pulls it outward to match card padding */
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Dark Mode Style */
+.dark-mode .feature-card h2 {
+  background: linear-gradient(to right, #2c2c3f, #3a3a4f);
+  color: #f0f0f0;
+}
+
+.feature-card p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Chatbot widget (example placeholder) */
+.chatbot-widget {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+.chatbot-button {
+  width: 60px;
+  height: 60px;
+  background: #4e7fff;
+  color: white;
+  font-size: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive tweaks */
+@media (max-width: 500px) {
+  .main-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .main-header p {
+    font-size: 1rem;
+  }
+
+  .feature-card {
+    padding: 20px;
+  }
+}
+
+
+  /* ===== General ===== */
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f4f4;
+    color: #333;
+  }
+  .dark-mode {
+    background: #111;
+    color: #eee;
+  }
+
+  /* ===== Chatbot Container ===== */
+#chatbot {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 90vw;
+  max-width: 400px;
+  height: 70vh;
+  max-height: 90vh;
+  min-width: 280px;
+  min-height: 300px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  z-index: 9999;
+}
+
+  .dark-mode #chatbot {
+    background: #222;
+    border-color: #555;
+  }
+
+  /* ===== Header ===== */
+  #header {
+    background: #333;
+    color: white;
+    padding: 10px;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+  }
+  .dark-mode #header {
+    background: #111;
+    color: #eee;
+  }
+  .header-left {
+    font-weight: bold;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  #model {
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: none;
+    background: #444;
+    color: white;
+  }
+  .dark-mode #model {
+    background: #222;
+    color: #eee;
+  }
+  button.header-btn {
+    font-size: 18px;
+    padding: 6px 10px;
+    background: #555;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  button.header-btn:hover {
+    background: #777;
+  }
+  .dark-mode button.header-btn {
+    background: #333;
+    color: #ddd;
+  }
+  .dark-mode button.header-btn:hover {
+    background: #444;
+  }
+
+  /* ===== Messages ===== */
+  #messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+  }
+  .chat-bubble {
+    margin: 10px 0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    background: #e1f0ff;
+    position: relative;
+  }
+  .dark-mode .chat-bubble {
+    background: #335577;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.3);
+  }
+  .chat-bubble.user-bot {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .user-text {
+    font-weight: 600;
+    color: #007bff;
+    white-space: pre-wrap;
+  }
+  .bot-text {
+    color: #28a745;
+    white-space: pre-wrap;
+  }
+
+  /* Buttons container for feedback and delete */
+  .feedback-buttons {
+    margin-top: 6px;
+    display: flex;
+    gap: 12px;
+  }
+  .feedback-buttons button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+    transition: color 0.2s ease;
+  }
+  .feedback-buttons button:hover {
+    color: #007bff;
+  }
+  .feedback-buttons button.delete-btn:hover {
+    color: #d9534f;
+  }
+  .dark-mode .feedback-buttons button {
+    color: #ccc;
+  }
+  .dark-mode .feedback-buttons button:hover {
+    color: #66bfff;
+  }
+  .dark-mode .feedback-buttons button.delete-btn:hover {
+    color: #ff6666;
+  }
+
+
+/* Trash button */
+button.header-btn#clear-btn:hover {
+  background: #c82333; /* red-like hover */
+}
+.dark-mode button.header-btn#clear-btn:hover {
+  background: #a71d2a;
+}
+
+
+
+  /* Thinking bubble style */
+  .chat-bubble.thinking {
+    background: #ffeeba;
+    color: #856404;
+    font-style: italic;
+  }
+  .dark-mode .chat-bubble.thinking {
+    background: #665c00;
+    color: #ffeb99;
+  }
+
+  /* Image preview */
+  .preview-image {
+    max-width: 100%;
+    margin-top: 8px;
+    border-radius: 8px;
+  }
+
+  /* ===== History (placeholder) ===== */
+  #history {
+    background: #fafafa;
+    max-height: 80px;
+    overflow-y: auto;
+    border-top: 1px solid #ccc;
+    font-size: 12px;
+    padding: 5px;
+  }
+  .dark-mode #history {
+    background: #1a1a1a;
+    border-top-color: #333;
+  }
+
+  /* ===== Input Bar ===== */
+  #input-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    background: #eee;
+  }
+  .dark-mode #input-bar {
+    background: #333;
+    border-top-color: #444;
+  }
+  #input-bar input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .dark-mode #input-bar input[type="text"] {
+    background: #111;
+    color: #f4f4f4;
+    border-color: #555;
+  }
+
+  /* Send Button */
+  #send-btn {
+    background: #007bff;
+    color: white;
+    font-size: 20px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  #send-btn:hover {
+    background: #0056b3;
+  }
+  .dark-mode #send-btn {
+    background: #0056b3;
+  }
+  .dark-mode #send-btn:hover {
+    background: #004099;
+  }
+
+  /* Upload Button (Big Plus Icon) */
+  #upload-btn {
+    background: #28a745;
+    color: white;
+    font-size: 26px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #upload-btn:hover {
+    background: #218838;
+  }
+  .dark-mode #upload-btn {
+    background: #1e7e34;
+  }
+  .dark-mode #upload-btn:hover {
+    background: #155724;
+  }
+
+  /* Hidden File Input */
+  #fileInput {
+    display: none;
+  }
+
+  /* Resize Handle */
+  #resize-handle {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    cursor: nwse-resize;
+    z-index: 10;
+  }
+
+  /* ===== Open Chat Button (when minimized) ===== */
+  #open-chat-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #007bff;
+    color: white;
+    font-size: 24px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    z-index: 10000;
+  }
+  #open-chat-btn:hover {
+    background: #0056b3;
+  }
+  .dark-mode #open-chat-btn {
+    background: #0056b3;
+  }
+  .dark-mode #open-chat-btn:hover {
+    background: #004099;
+  }
+
+
+@media (max-width: 600px) {
+  #chatbot {
+    width: 95vw;
+    height: 80vh;
+    bottom: 10px;
+    right: 10px;
+    border-radius: 8px;
+  }
+
+  #input-bar input[type="text"] {
+    font-size: 14px;
+  }
+
+  button.header-btn {
+    padding: 4px 8px;
+    font-size: 16px;
+  }
+
+  #upload-btn {
+    font-size: 22px;
+  }
+}
+
+.header-card {
+  background: linear-gradient(to right, #4e7fff, #7ca9ff);
+  color: white;
+  padding: 40px 30px;
+  border-top-left-radius: 100px;
+  border-top-right-radius: 100px;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  max-width: 700px;
+  margin: 0 auto 20px auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+/* Optional: Style the <h1> inside it */
+.header-card h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+
+/* Overlay behind modal */
+#games-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 10000;
+  display: none;
+  backdrop-filter: blur(4px);
+}
+
+/* Games modal window */
+#games-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #e9f0ff; /* Light variant */
+  border-radius: 26px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 30px 40px 40px;
+  z-index: 10001;
+  display: none;
+  color: #1a1a1a;
+  font-family: 'Segoe UI', sans-serif;
+  transition: background 0.3s ease;
+}
+
+/* Dark mode variant for modal */
+.dark-mode #games-modal {
+  background: #2c2c3f;
+  color: #ddd;
+}
+
+/* Modal Header */
+#games-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#games-modal-header h2 {
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 600;
+  background: linear-gradient(to right, #cce3ff, #e0eeff);
+  padding: 12px 24px;
+  border-radius: 36px;
+  user-select: none;
+}
+
+.dark-mode #games-modal-header h2 {
+  background: linear-gradient(to right, #3a3a4f, #2c2c3f);
+  color: #f0f0f0;
+}
+
+/* Close icon style */
+#games-modal-close {
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #555;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+#games-modal-close:hover {
+  color: #007bff;
+}
+.dark-mode #games-modal-close {
+  color: #ccc;
+}
+.dark-mode #games-modal-close:hover {
+  color: #66bfff;
+}
+
+/* Games container (bubbles grid) */
+#games-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 18px;
+}
+
+/* Each game bubble */
+.game-bubble {
+  background: linear-gradient(to bottom right, #a0c4ff, #b2d4ff);
+  border-radius: 26px;
+  padding: 20px 18px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  min-height: 140px;
+}
+.game-bubble:hover {
+  background: linear-gradient(to bottom right, #799aff, #a4c0ff);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  transform: translateY(-4px);
+}
+.dark-mode .game-bubble {
+  background: linear-gradient(to bottom right, #415069, #566784);
+  color: #eee;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+.dark-mode .game-bubble:hover {
+  background: linear-gradient(to bottom right, #2b3a55, #445a83);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+/* Game title inside bubble */
+.game-bubble h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Game description inside bubble */
+.game-bubble p {
+  font-size: 0.9rem;
+  color: #333;
+  flex-grow: 1;
+  line-height: 1.3;
+}
+.dark-mode .game-bubble p {
+  color: #ccc;
+}
+
+/* Responsive tweaks */
+@media (max-width: 400px) {
+  #games-modal {
+    padding: 20px 20px 30px;
+  }
+  #games-modal-header h2 {
+    font-size: 1.5rem;
+  }
+  .game-bubble {
+    min-height: 120px;
+    padding: 16px 12px;
+  }
+}
+
+/* Thinking brain */
+.heartbeat-wrapper {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.heartbeat {
+  display: inline-block;
+  animation: heartbeat 1.2s infinite ease-in-out;
+  transform-origin: center;
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.3);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.3);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+</style>
+</head>
+<body>
+<!-- Main body -->
+  <div class="page-wrapper">
+    <header class="main-header">
+      <div class="feature-card header-card">
+      <h1>Gemma Health AI Companion</h1>
+      </div>
+      <p>Smart tools for health & well-being — even offline.</p>
+      <p><h6>Using Ollama and Gemma 3N 4B</h6></p>
+    </header>
+
+    <section class="features">
+      <div class="feature-card" id="askImageBtn">
+        <h2>Ask Image</h2>
+        <p>Ask any questions on the image that you insert.</p>
+      </div>
+      <div class="feature-card" id="healthCheckBtn">
+        <h2>Health Check</h2>
+        <p>Answer 10 questions on your health to determine if you are at risk or not at risk with stroke using our machine learning model.</p>
+      </div>
+      <div class="feature-card" id="skinEvalBtn">
+        <h2>Skin Evaluation</h2>
+        <p>Upload an image of your mole, skin, or lesion. Let our machine learning model help determine if it is benign or malignant.</p>
+      </div>
+      <div class="feature-card">
+        <h2>Games</h2>
+        <p>Play this offline app game against Gemma while you are waiting.</p>
+      </div>
+    </section>
+  </div>
+
+ 
+
+
+<!-- Chatbot container -->
+<div id="chatbot" style="left:auto; top:auto;">
+  <div id="header">
+    <div class="header-left">
+      🤖 AI Chat
+    </div>
+    <div class="header-buttons">
+      <select id="model" title="Select Model">
+        <option value="gemma3:4b">Gemma3:4b</option>
+        <option value="mistral">Mistral</option>
+        <option value="phi2">Phi2</option>
+      </select>
+      <button id="theme-btn" class="header-btn" title="Toggle Theme">🌓</button>
+      <button id="clear-btn" class="header-btn" title="Clear Conversation">🗑️</button>
+      <button id="min-btn" class="header-btn" title="Minimize Chat">➖</button>
+    </div>
+  </div>
+
+  <div id="messages"></div>
+
+  <div id="history" style="display:none">Chat history will appear here...</div>
+
+  <div id="input-bar">
+    <button id="upload-btn" title="Upload File">➕</button>
+    <input type="file" id="fileInput" accept="image/*,video/*" />
+    <input type="text" id="input" placeholder="Type a message..." />
+    <button id="send-btn" title="Send message">➤</button>
+  </div>
+
+  <div id="resize-handle" title="Resize"></div>
+</div>
+
+ 
+  <button id="open-chat-btn" title="Open Chat">💬</button> 
+ 
+
+<script>
+  const chatbot = document.getElementById('chatbot');
+  const header = document.getElementById('header');
+  const resizeHandle = document.getElementById('resize-handle');
+  const themeBtn = document.getElementById('theme-btn');
+  const minBtn = document.getElementById('min-btn');
+  const uploadBtn = document.getElementById('upload-btn');
+  const fileInput = document.getElementById('fileInput');
+  const sendBtn = document.getElementById('send-btn');
+  const messages = document.getElementById('messages');
+  const input = document.getElementById('input');
+  const historyDiv = document.getElementById('history');
+  const inputBar = document.getElementById('input-bar');
+  const openChatBtn = document.getElementById('open-chat-btn');
+  const modelSelect = document.getElementById('model');
+
+  // State
+  let isDragging = false;
+  let resizing = false;
+  let offsetX = 0;
+  let offsetY = 0;
+  let conversation = []; // holds full message history for API
+  let uploadedImageFile = null;
+  let previewBubble = false;
+
+ 
+const healthCheckBtn = document.getElementById('healthCheckBtn');
+ 
+
+function isChatbotOpen() {
+   return chatbot.style.display !== 'none';
+ 
+}
+
+ 
+/**
+ * Converts a string with markdown-like formatting and special characters to HTML.
+ * * @param {string} rawText The raw string output from the model.
+ * @returns {string} The formatted HTML string.
+ */
+function convertToHtml(rawText) {
+  // Create a temporary element to unescape the HTML entities
+  const tempElement = document.createElement('div');
+  tempElement.innerHTML = rawText;
+  let htmlText = tempElement.innerText;
+
+  // 1. Convert markdown-like bolding **...**
+  // This regex finds pairs of ** and replaces them with <strong> tags.
+  htmlText = htmlText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  // 2. Convert newlines to <br> tags. The /g flag ensures all occurrences are replaced.
+  htmlText = htmlText.replace(/\\n/g, '<br/>');
+
+  // 3. Convert specific Unicode characters.
+  // The model may send Unicode escape sequences like \u2019
+  // If it's already a literal character (like ’), you can replace it directly.
+  htmlText = htmlText.replace(/\\u2013/g, '&ndash;');
+  htmlText = htmlText.replace(/\\u2014/g, '&mdash;');
+  htmlText = htmlText.replace(/\\u2019/g, '&rsquo;');
+  htmlText = htmlText.replace(/\\u201c/g, '&ldquo;');
+  htmlText = htmlText.replace(/\\u201d/g, '&rdquo;');
+
+  // Now you can add any other replacements as needed.
+  // We've removed the final escaping step as it's no longer necessary.
+  
+  return htmlText;
+}
+
+
+
+  // Clear History button
+const clearBtn = document.getElementById('clear-btn');
+
+clearBtn.addEventListener('click', () => {
+  if (confirm('Are you sure you want to clear the entire conversation?')) {
+    // Clear messages
+    messages.innerHTML = '';
+
+    // Clear history
+    historyDiv.innerHTML = '';
+
+    // Clear conversation array
+    conversation = [];
+
+    // Clear any preview
+    if (previewBubble) {
+      previewBubble.remove();
+      previewBubble = null;
+    }
+
+    // Reset image upload
+    uploadedImageFile = null;
+    fileInput.value = null;
+  }
+});
+
+
+  // ===== Dragging logic =====
+  header.addEventListener('mousedown', (e) => {
+    const interactiveTags = ['SELECT', 'BUTTON', 'INPUT', 'LABEL'];
+    if (interactiveTags.includes(e.target.tagName)) return;
+    e.preventDefault();
+    isDragging = true;
+    const rect = chatbot.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      const newLeft = e.clientX - offsetX;
+      const newTop = e.clientY - offsetY;
+      const width = chatbot.offsetWidth;
+      const height = chatbot.offsetHeight;
+      const maxLeft = window.innerWidth - width;
+      const maxTop = window.innerHeight - height;
+      chatbot.style.left = Math.min(Math.max(0, newLeft), maxLeft) + 'px';
+      chatbot.style.top = Math.min(Math.max(0, newTop), maxTop) + 'px';
+    } else if (resizing) {
+      const rect = chatbot.getBoundingClientRect();
+      const newWidth = e.clientX - rect.left;
+      const newHeight = e.clientY - rect.top;
+      chatbot.style.width = Math.max(300, newWidth) + 'px';
+      chatbot.style.height = Math.max(250, newHeight) + 'px';
+    }
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    resizing = false;
+  });
+
+  // ===== Resize logic =====
+  resizeHandle.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    resizing = true;
+  });
+
+  // ===== Minimize/Maximize logic =====
+  minBtn.addEventListener('click', () => {
+    chatbot.style.display = 'none';
+    openChatBtn.style.display = 'block';
+  });
+  openChatBtn.addEventListener('click', () => {
+    chatbot.style.display = 'flex';
+    openChatBtn.style.display = 'none';
+  });
+
+  // ===== Dark/Light mode toggle =====
+  themeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+  });
+
+  // ===== Upload Image logic =====
+  uploadBtn.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', (e) => {
+    if (fileInput.files.length > 0) {
+      uploadedImageFile = fileInput.files[0];
+      showImagePreview(uploadedImageFile);
+    }
+  });
+
+  function showImagePreview1(file) {
+    clearThinkingBubble();
+    const reader = new FileReader();
+    reader.onload = () => {
+      appendThinkingBubble('Please enter your question...', reader.result);
+    };
+    reader.readAsDataURL(file);
+  }
+
+function showImagePreview(file) {
+  clearThinkingBubble(); // make sure there's no leftover thinking bubble
+  const reader = new FileReader();
+  reader.onload = () => {
+    previewBubble = document.createElement('div');
+    previewBubble.classList.add('chat-bubble', 'thinking');
+    previewBubble.textContent = 'Please enter your question...';
+
+    const img = document.createElement('img');
+    img.src = reader.result;
+    img.alt = 'Uploaded preview';
+    img.className = 'preview-image';
+    previewBubble.appendChild(img);
+
+    messages.appendChild(previewBubble);
+    scrollMessagesToBottom();
+  };
+  reader.readAsDataURL(file);
+}
+
+  // ===== Append thinking bubble =====
+  function appendThinkingBubble(text, imageBase64 = null) {
+    clearThinkingBubble();
+    const thinkingDiv = document.createElement('div');
+    thinkingDiv.classList.add('chat-bubble', 'thinking');
+    thinkingDiv.id = 'thinking-bubble';
+    //thinkingDiv.textContent = text;
+    thinkingDiv.innerHTML = `
+  <span class="heartbeat-wrapper"><span class="heartbeat">🧠</span></span><span>${text}</span> ` ;
+
+    if(imageBase64){
+      const img = document.createElement('img');
+      img.src = imageBase64;
+      img.alt = 'Uploaded preview';
+      img.className = 'preview-image';
+      thinkingDiv.appendChild(img);
+    }
+    messages.appendChild(thinkingDiv);
+    scrollMessagesToBottom();
+  }
+  function clearThinkingBubble() {
+    const existingThinking = document.getElementById('thinking-bubble');
+    if (existingThinking) existingThinking.remove();
+  }
+
+
+function appendUserBotBubble(userText, botText = null, userImageBase64 = null) {
+  const bubble = document.createElement('div');
+  bubble.classList.add('chat-bubble', 'user-bot');
+
+  const userDiv = document.createElement('div');
+  userDiv.classList.add('user-text');
+  userDiv.textContent = userText;
+  bubble.appendChild(userDiv);
+
+  if (userImageBase64) {
+    const img = document.createElement('img');
+    img.src = 'data:image/png;base64,' + userImageBase64;
+    img.alt = 'User uploaded image';
+    img.className = 'preview-image';
+    bubble.appendChild(img);
+  }
+
+  const botDiv = document.createElement('div');
+  botDiv.classList.add('bot-text');
+  //botDiv.textContent = botText ?? '🧠 Thinking...';
+if (!botText) {
+  botDiv.innerHTML = `<span class="heartbeat-wrapper"><span class="heartbeat">🧠</span></span><span>Thinking...</span>`;
+} else {
+  botDiv.innerHTML = convertToHtml(botText);
+}
+  bubble.appendChild(botDiv);
+
+  const fbDiv = document.createElement('div');
+  fbDiv.classList.add('feedback-buttons');
+
+  const thumbsUp = document.createElement('button');
+  thumbsUp.innerHTML = '👍';
+  thumbsUp.title = 'Thumbs Up';
+  thumbsUp.onclick = () => alert('Thanks for thumbs up!');
+  fbDiv.appendChild(thumbsUp);
+
+  const thumbsDown = document.createElement('button');
+  thumbsDown.innerHTML = '👎';
+  thumbsDown.title = 'Thumbs Down';
+  thumbsDown.onclick = () => alert('Thanks for thumbs down!');
+  fbDiv.appendChild(thumbsDown);
+
+  const conversationIndex = conversation.length;
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.innerHTML = '🗑️';
+  deleteBtn.title = 'Delete Message';
+  deleteBtn.classList.add('delete-btn');
+  deleteBtn.onclick = () => {
+    bubble.remove();
+
+    // 🧹 Remove corresponding messages (user + assistant)
+    if (conversationIndex >= 0 && conversation[conversationIndex]?.role === 'user') {
+      conversation.splice(conversationIndex, 2);
+    }
+
+    // Optionally clear history panel
+    while (historyDiv.firstChild) {
+      historyDiv.removeChild(historyDiv.firstChild);
+    }
+  };
+  fbDiv.appendChild(deleteBtn);
+
+  bubble.appendChild(fbDiv);
+  messages.appendChild(bubble);
+  scrollMessagesToBottom();
+
+  return botDiv;
+}
+
+
+function appendUserBotBubble2(userText, botText = null, userImageBase64 = null) {
+  const bubble = document.createElement('div');
+  bubble.classList.add('chat-bubble', 'user-bot');
+
+  const userDiv = document.createElement('div');
+  userDiv.classList.add('user-text');
+  userDiv.textContent = userText;
+  bubble.appendChild(userDiv);
+
+  // If there's a user image, add it below the text
+  if (userImageBase64) {
+    const img = document.createElement('img');
+    img.src = 'data:image/png;base64,' + userImageBase64;
+    img.alt = 'User uploaded image';
+    img.className = 'preview-image';
+    bubble.appendChild(img);
+  }
+
+  // Bot response placeholder or final message
+  const botDiv = document.createElement('div');
+  botDiv.classList.add('bot-text');
+  //botDiv.textContent = botText ?? '🧠 Thinking...';
+if (!botText) {
+  botDiv.innerHTML = `<span class="heartbeat-wrapper"><span class="heartbeat">🧠</span></span><span>Thinking...</span>`;
+} else {
+  botDiv.innerHTML = convertToHtml(botText);
+}
+
+  bubble.appendChild(botDiv);
+
+  // Feedback buttons container
+  const fbDiv = document.createElement('div');
+  fbDiv.classList.add('feedback-buttons');
+
+  // Thumbs up button
+  const thumbsUp = document.createElement('button');
+  thumbsUp.innerHTML = '👍';
+  thumbsUp.title = 'Thumbs Up';
+  thumbsUp.onclick = () => alert('Thanks for thumbs up! (Implement feedback logic)');
+  fbDiv.appendChild(thumbsUp);
+
+  // Thumbs down button
+  const thumbsDown = document.createElement('button');
+  thumbsDown.innerHTML = '👎';
+  thumbsDown.title = 'Thumbs Down';
+  thumbsDown.onclick = () => alert('Thanks for thumbs down! (Implement feedback logic)');
+  fbDiv.appendChild(thumbsDown);
+
+  // Delete button
+  const deleteBtn = document.createElement('button');
+  deleteBtn.innerHTML = '🗑️';
+  deleteBtn.title = 'Delete Message';
+  deleteBtn.classList.add('delete-btn');
+  deleteBtn.onclick = () => {
+    bubble.remove();
+    // Also remove from conversation history if needed
+  };
+  fbDiv.appendChild(deleteBtn);
+
+  bubble.appendChild(fbDiv);
+  messages.appendChild(bubble);
+  scrollMessagesToBottom();
+
+  return botDiv;  
+}
+
+
+
+function appendUserBotBubble1(userText, botText, userImageBase64 = null) {
+  const bubble = document.createElement('div');
+  bubble.classList.add('chat-bubble', 'user-bot');
+
+  const userDiv = document.createElement('div');
+  userDiv.classList.add('user-text');
+  userDiv.textContent = userText;
+
+  bubble.appendChild(userDiv);
+
+  // If there's a user image, add it below the text
+  if (userImageBase64) {
+    const img = document.createElement('img');
+    img.src = 'data:image/png;base64,' + userImageBase64;
+    img.alt = 'User uploaded image';
+    img.className = 'preview-image';
+    bubble.appendChild(img);
+  }
+
+  const botDiv = document.createElement('div');
+  botDiv.classList.add('bot-text');
+  botDiv.textContent = botText;
+
+  bubble.appendChild(botDiv);
+
+  // Feedback buttons container
+  const fbDiv = document.createElement('div');
+  fbDiv.classList.add('feedback-buttons');
+
+  // Thumbs up button
+  const thumbsUp = document.createElement('button');
+  thumbsUp.innerHTML = '👍';
+  thumbsUp.title = 'Thumbs Up';
+  thumbsUp.onclick = () => alert('Thanks for thumbs up! (Implement feedback logic)');
+  fbDiv.appendChild(thumbsUp);
+
+  // Thumbs down button
+  const thumbsDown = document.createElement('button');
+  thumbsDown.innerHTML = '👎';
+  thumbsDown.title = 'Thumbs Down';
+  thumbsDown.onclick = () => alert('Thanks for thumbs down! (Implement feedback logic)');
+  fbDiv.appendChild(thumbsDown);
+
+  // Delete button
+  const deleteBtn = document.createElement('button');
+  deleteBtn.innerHTML = '🗑️';
+  deleteBtn.title = 'Delete Message';
+  deleteBtn.classList.add('delete-btn');
+  deleteBtn.onclick = () => {
+    bubble.remove();
+    // Also remove from conversation history if needed
+  };
+  fbDiv.appendChild(deleteBtn);
+
+  bubble.appendChild(fbDiv);
+
+  messages.appendChild(bubble);
+  scrollMessagesToBottom();
+}
+
+
+  // ===== Append a combined user+bot bubble =====
+  function appendUserBotBubble1(userText, botText) {
+    const bubble = document.createElement('div');
+    bubble.classList.add('chat-bubble', 'user-bot');
+
+    const userDiv = document.createElement('div');
+    userDiv.classList.add('user-text');
+    userDiv.textContent = userText;
+
+    const botDiv = document.createElement('div');
+    botDiv.classList.add('bot-text');
+    botDiv.textContent = botText;
+
+    bubble.appendChild(userDiv);
+    bubble.appendChild(botDiv);
+
+    // Feedback buttons container
+    const fbDiv = document.createElement('div');
+    fbDiv.classList.add('feedback-buttons');
+
+    // Thumbs up button
+    const thumbsUp = document.createElement('button');
+    thumbsUp.innerHTML = '👍';
+    thumbsUp.title = 'Thumbs Up';
+    thumbsUp.onclick = () => alert('Thanks for thumbs up! (Implement feedback logic)');
+    fbDiv.appendChild(thumbsUp);
+
+    // Thumbs down button
+    const thumbsDown = document.createElement('button');
+    thumbsDown.innerHTML = '👎';
+    thumbsDown.title = 'Thumbs Down';
+    thumbsDown.onclick = () => alert('Thanks for thumbs down! (Implement feedback logic)');
+    fbDiv.appendChild(thumbsDown);
+
+    // Delete button
+    const deleteBtn = document.createElement('button');
+    deleteBtn.innerHTML = '🗑️';
+    deleteBtn.title = 'Delete Message';
+    deleteBtn.classList.add('delete-btn');
+    deleteBtn.onclick = () => {
+      bubble.remove();
+      // Also remove from conversation history if needed
+    };
+    fbDiv.appendChild(deleteBtn);
+
+    bubble.appendChild(fbDiv);
+
+    messages.appendChild(bubble);
+    scrollMessagesToBottom();
+  }
+
+  // Scroll to bottom helper
+  function scrollMessagesToBottom() {
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  // ===== Convert Image File to Base64 =====
+  // Convert file to base64
+  function imageFileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64 = reader.result.split(',')[1]; // remove data:image/...;base64,
+        resolve(base64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ===== Call backend API (Ollama) =====
+  
+async function callOllamaAPI(userText, model, imageBase64 = null) {
+  // Build payload with or without imageBase64
+  let payload;
+
+  if (imageBase64) {
+    payload = {
+      model: model,
+      messages: [
+        {
+          role: 'user',
+          content: [
+            { type: 'text', text: userText },
+            { type: 'image', image: imageBase64 }
+          ]
+        }
+      ],
+      stream: false
+    };
+  } else {
+    payload = {
+      model: model,
+      messages: [{ role: 'user', content: userText }],
+      stream: false
+    };
+  }
+
+  try {
+    const response = await fetch('http://localhost/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+    const data = await response.json();
+    let rawResponse;
+    if (typeof data === 'string') {
+      rawResponse = data.trim();
+    } else {
+      rawResponse = (data.message?.content || data.response || '[No response]').trim();
+    }
+
+    // 
+    const htmlContent = convertToHtml(rawResponse);
+
+    // Now you can return the HTML content to be displayed on the frontend
+    return htmlContent;
+
+/*
+    if (typeof data === 'string') return data.trim();
+
+    return (data.message?.content || data.response || '[No response]').trim();
+*/
+  } catch (err) {
+    return `❌ Error contacting backend: ${err.message}`;
+  }
+}
+
+  // ===== Main send logic =====
+  sendBtn.addEventListener('click', sendMessage);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+ 
+
+async function sendMessage() {
+  const text = input.value.trim();
+  if (!text && !uploadedImageFile) return;
+
+  input.value = '';
+
+  let imageBase64 = null;
+  if (uploadedImageFile) {
+    try {
+      imageBase64 = await imageFileToBase64(uploadedImageFile);
+    } catch (err) {
+      console.error('Image conversion failed:', err);
+      appendBotMessage('❌ Failed to process image.');
+    }
+  }
+
+  if (previewBubble) {
+    previewBubble.remove();
+    previewBubble = null;
+  }
+
+  // Show user's message + image immediately with "Thinking..." placeholder
+  const botTextDiv = appendUserBotBubble(text, null, imageBase64);
+
+  // ✅ Clear image file & input *immediately after using*
+  uploadedImageFile = null;
+  fileInput.value = null;
+
+
+  //alert(text);
+  //alert(conversation);
+
+  const messages = JSON.stringify([...conversation, { role: 'user', content: text }]);
+  conversation.push({ role: 'user', content: text });
+  //alert(messages);
+  const botResponseText = await callOllamaAPI(messages, modelSelect.value, imageBase64);
+
+  conversation.push({ role: 'assistant', content: botResponseText });
+
+  // Replace "Thinking..." with actual response
+  // botTextDiv.textContent = botResponseText;
+  botTextDiv.innerHTML = botResponseText;
+
+  // ✅ INSERT: Update history panel
+  const historyItem = document.createElement('div');
+  historyItem.style.marginBottom = '6px';
+
+  const historyText = document.createElement('div');
+  historyText.textContent = `🧑 ${text}`;
+  historyItem.appendChild(historyText);
+
+  if (imageBase64) {
+    const thumb = document.createElement('img');
+    thumb.src = 'data:image/png;base64,' + imageBase64;
+    thumb.style.maxHeight = '40px';
+    thumb.style.borderRadius = '4px';
+    thumb.style.marginTop = '4px';
+    historyItem.appendChild(thumb);
+  }
+
+  historyDiv.appendChild(historyItem);
+  historyDiv.scrollTop = historyDiv.scrollHeight;
+  // ✅ END INSERT
+
+  scrollMessagesToBottom();
+}
+
+function clearConversation() {
+  messages.innerHTML = '';
+  historyDiv.innerHTML = '';
+  conversation = [];
+
+  if (previewBubble) {
+    previewBubble.remove();
+    previewBubble = null;
+  }
+
+  uploadedImageFile = null;
+  fileInput.value = null;
+}
+
+healthCheckBtn.addEventListener('click', () => {
+  // Open chatbot if it's hidden
+  if (!isChatbotOpen()) {
+    chatbot.style.display = 'flex';
+    openChatBtn.style.display = 'none'; // hide open button
+  }
+
+  // Maximize or reset position and size if needed
+  chatbot.style.width = '400px'; // adjust as needed
+  chatbot.style.height = '500px'; // adjust as needed
+  chatbot.style.left = '50%';
+  chatbot.style.top = '50%';
+  chatbot.style.transform = 'translate(-50%, -50%)'; // center it
+
+  clearConversation();
+
+  // Set prompt message
+  input.value = 'I like to get a health assessment.';
+  input.focus();
+
+  // Trigger send
+  sendBtn.click();
+});
+ 
+
+function openChatIfClosed() {
+  if (chatbot.style.display === 'none' || chatbot.style.display === '') {
+    openChatBtn.click();
+  }
+}
+
+// For Ask Image bubble
+document.getElementById('askImageBtn').addEventListener('click', () => {
+  openChatIfClosed();
+  // Optionally, prefill input or trigger something here
+  // input.value = "I have a question about my image.";
+  // sendBtn.click();
+});
+
+// For Skin Evaluation bubble
+document.getElementById('skinEvalBtn').addEventListener('click', () => {
+  openChatIfClosed();
+  // Optionally prefill input or trigger upload dialog
+  // input.value = "Please evaluate my skin image.";
+  // sendBtn.click();
+}); 
+
+
+
+// GAME
+// ===== Game Data Array: [title, description, prompt] =====
+const games = [
+  ["The Lost Relic Adventure", "The user, acting as an adventurer, must explore a small, mysterious area to locate and retrieve the fabled [Whispering Amulet] within a limited number of actions.",`Game Rules:
+	1. Secret Relic & Location: You (the chatbot) will secretly decide on the exact location where the "Whispering Amulet" is hidden. This location will be one of the pre-defined areas. Do not reveal the amulet's location until it is found or the game ends.
+	2. Game World: The adventure takes place in the following interconnected locations:
+		○ The Old Forest Path: A winding path through dense trees. (Starting Location)
+		○ The Whispering Cave: A dark, damp cave entrance, accessible from the Old Forest Path.
+		○ The Ancient Ruins: Crumbling stone structures, accessible from the Old Forest Path.
+		○ The Hidden Spring: A small, clear pool of water, accessible from the Ancient Ruins.
+		○ The Sunken Temple: A partially submerged structure, accessible from the Whispering Cave.
+	3. Actions & Commands: The user will interact by typing commands. You must interpret these commands and describe the outcome. Valid commands include:
+		○ GO [NORTH/SOUTH/EAST/WEST/IN/OUT]: Move to an adjacent location. You will describe the new location. If a direction is not valid, state that.
+		○ LOOK AROUND: Describe the current surroundings in more detail, highlighting any notable features or objects.
+		○ EXAMINE [OBJECT]: Provide more specific details about an object mentioned in the location description.
+		○ TAKE [OBJECT]: Attempt to pick up an object. This is how the user wins if they take the "Whispering Amulet". If the object isn't the amulet or isn't present, state that.
+		○ INVENTORY: (Optional, if you want to track items, but for this simple game, it's not strictly necessary unless the amulet is picked up).
+	4. Action Limit: The user has a maximum of 15 actions (moves) to find the Whispering Amulet. Each valid command counts as one action. Invalid commands do not count against the limit but should receive feedback.
+	5. Feedback: After each action, you will:
+		○ Describe the result of the action.
+		○ Update the user on their current location (if they moved).
+		○ State the number of actions remaining.
+	6. Game End - Win: If the user successfully uses the TAKE WHISPERING AMULET command when the amulet is present in their current location, declare "Congratulations! You have found the Whispering Amulet in [X] actions and completed your quest!" and end the game.
+	7. Game End - Lose: If the user exhausts all 15 actions without finding and taking the Whispering Amulet, declare "Game Over! You ran out of time, and the Whispering Amulet remains lost. The amulet was hidden in [Secret Location]." and reveal its location.
+	8. Starting State: The game begins with the user at The Old Forest Path.
+`],
+  ["The 10-Move Number Guessing Challenge", "The user must guess a secret number chosen by the chatbot within 10 attempts.", `Game Rules:
+	1. Secret Number: You (the chatbot) will secretly choose a random whole number between 1 and 100 (inclusive). Do not reveal this number until the game ends.
+	2. Attempts: The user has exactly 10 attempts to guess the number.
+	3. Feedback: After each guess, you will provide one of the following responses:
+		○ "Too low!" if the guess is less than the secret number.
+		○ "Too high!" if the guess is greater than the secret number.
+		○ "Congratulations! You guessed the number in [X] moves!" if the guess is correct.
+	4. Tracking Moves: You must keep track of the number of moves the user has made and the number of moves remaining.
+	5. Game End - Win: If the user guesses the number correctly, declare them the winner and state how many moves it took.
+	6. Game End - Lose: If the user exhausts all 10 attempts without guessing the number, declare "Game Over!" and reveal the secret number.
+	7. Start: Begin the game by stating you have chosen a number and asking for the user's first guess.
+`],
+  ["The Word Association Chain", "To build a long chain of words, where each new word is conceptually linked to the previous one.", `Game Rules:
+	1. Starting Word: You (the chatbot) will provide the first word to kick off the chain.
+	2. Turns: The game proceeds in turns. The user provides a word associated with your last word, then you provide a word associated with the user's last word, and so on.
+	3. Association: The association can be anything: a synonym, an antonym, a related concept, something that typically goes with it, a part of it, etc. The connection should be explainable if challenged.
+	4. No Repetition: Words cannot be repeated within the same game session.
+	5. Challenge: If either party thinks the other's association is too weak or non-existent, they can say "Challenge!" The challenged party must then briefly explain their link. If the explanation is not satisfactory (judged by the other party), they lose that turn, and the game continues with a new word from the challenger.
+	6. Game End: The game ends when either party cannot think of a valid association, or after a pre-agreed number of turns (e.g., 20 words total).
+`],
+  ["The Riddle Master Challenge", "The user must solve a series of riddles posed by the chatbot.", `Game Rules:
+	1. Riddle Selection: You (the chatbot) will present one riddle at a time.
+	2. Attempts: The user has up to 3 attempts to guess the answer to each riddle.
+	3. Feedback:
+		○ If the guess is correct: "That's right! You've solved it!" Then, present the next riddle.
+		○ If the guess is incorrect: "Not quite. Try again!" (and indicate attempts remaining for that riddle).
+		○ If 3 attempts are exhausted: "Time's up! The answer was [Reveal Answer]." Then, present the next riddle.
+	4. Number of Riddles: The game will consist of 5 riddles.
+	5. Game End: The game ends after all 5 riddles have been presented and resolved. Keep track of how many riddles the user solved correctly.
+        6. After the user responds, verify if the user response is correct, keep track of the # of guesses if they are not correct.  Say that they have 1 or X number of chances left. They must have 3 attempts to answer correctly.
+	7. Final Score: At the end, announce the user's score (e.g., "You solved X out of 5 riddles!").
+`],
+  ["The Collaborative Storyteller", "To co-create a short, imaginative story with the chatbot, taking turns to build the narrative.", `Game Rules:
+	1. Opening: You (the chatbot) will start the story with an intriguing opening sentence or two, setting a scene or introducing a character.
+	2. Turns: The game proceeds in turns. After your opening, the user will add to the story. Then you will add to it, and so on.
+	3. Length: Each turn (both yours and the user's) should add approximately 1-3 sentences to the story, building upon the previous contribution.
+	4. Creativity: Encourage imagination, unexpected twists, and vivid descriptions.
+	5. Consistency: Maintain logical consistency with the established plot, characters, and setting.
+	6. Ending: The game can end when either the user or you decide the story feels complete, or after a pre-agreed number of turns (e.g., 10 turns each). If the user signals an end, you will provide a concluding sentence. If you decide to end it, you will write a concluding sentence and state "The End."
+	7. No Plot Twists from Chatbot: The chatbot should not introduce major plot twists or new characters without the user's lead or explicit agreement. Focus on expanding the existing narrative.
+`],
+  ["Tic-Tac-Toe: Classic 3x3 Showdown", " The user must win a game of tic-tac-toe against the chatbot by placing three of their marks in a horizontal, vertical, or diagonal line — or end in a draw.",`Game Rules:
+	1. Board Layout: The game is played on a 3x3 grid labeled with numbers 1 through 9:
+
+ 1 | 2 | 3  
+---+---+---  
+ 4 | 5 | 6  
+---+---+---  
+ 7 | 8 | 9  
+
+Each number represents a position on the board. Once a player picks a number, it is replaced with either X or O depending on who made the move.
+	2. Choosing Symbols: The user will play as X or O. The chatbot will play as the opposite symbol.
+	3. First Turn: The user may choose to go first or second. Turns alternate between the user and the chatbot.
+	4. Player Move: On each turn, the player selects an available number (1–9). The number will be replaced with the player’s symbol. Display the board layout with the updated move and remove that number from the board and replaced with the player's X or O move.
+	5. Win Check: After every move, check if the player who just played has formed a horizontal, vertical, or diagonal line of three identical symbols (XXX or OOO).
+		○ If yes, immediately announce the winner and show the final board.
+		○ If no, continue to the next step.
+	6. Tie Check: If all nine squares are filled without a winner, immediately declare a tie and show the final board.
+	7. Exit Option: The user may type “exit” at any time to quit the game.
+	8. Game End - Win: If a player wins, declare the winner and display the final board.
+	9. Game End - Tie: If no spaces remain and no player has won, declare a tie and display the final board.
+	10. Start: Begin the game by asking the user if they want to go first or second.
+        11. Display the board at the game start and redisplay after each turns with the updated X or O in the board layout.
+You are playing a game of Tic-Tac-Toe with a user.
+
+#1 Game Rules:
+a.  Board Layout: The game is played on a 3x3 grid labeled with numbers 1 through 9.
+b.  Choosing Symbols: The user will play as X or O. You will play as the opposite symbol.
+c.  First Turn: The user may choose to go first or second. Turns alternate between the user and you.
+d.  Player Move: On each turn, the player selects an available number (1–9). Replace the number on the board with the player’s symbol.
+e.  Win Check: After every move, check if the player who just played has formed a line of three identical symbols (horizontal, vertical, or diagonal). If so, announce the winner and show the final board.
+f.  Tie Check: If all nine squares are filled without a winner, declare a tie and show the final board.
+g.  Exit Option: The user may type “exit” at any time to quit.
+h.  Display: Display the board at the game start and after each turn with the updated symbols.
+
+Begin the game by displaying the initial empty board and asking the user if they want to go first or second.
+#2 For every single turn after the game starts, you must send a new prompt that includes the current board state along with the user's move.
+`]
+];
+
+// Utility to toggle dark mode class on body for modal styling (if you have toggle already)
+function isDarkMode() {
+  return document.body.classList.contains('dark-mode');
+}
+
+// Create modal and overlay elements
+function createGamesModal() {
+  // If modal already exists, return it
+  let modal = document.getElementById('games-modal');
+  if (modal) return modal;
+
+  // Create overlay
+  const overlay = document.createElement('div');
+  overlay.id = 'games-modal-overlay';
+
+  // Create modal container
+  modal = document.createElement('div');
+  modal.id = 'games-modal';
+
+  // Header with title and close icon
+  const header = document.createElement('div');
+  header.id = 'games-modal-header';
+
+  const title = document.createElement('h2');
+  title.textContent = 'Games';
+
+  const closeBtn = document.createElement('span');
+  closeBtn.id = 'games-modal-close';
+  closeBtn.innerHTML = '&times;'; // ×
+  closeBtn.title = "Close Games";
+
+  // Close modal event
+  closeBtn.addEventListener('click', () => {
+    closeGamesModal();
+  });
+
+  header.appendChild(title);
+  header.appendChild(closeBtn);
+  modal.appendChild(header);
+
+  // Games list container
+  const gamesList = document.createElement('div');
+  gamesList.id = 'games-list';
+
+  // Create each game bubble
+  games.forEach((game, index) => {
+    const bubble = document.createElement('div');
+    bubble.className = 'game-bubble';
+    bubble.dataset.gameIndex = index;
+
+    const gameTitle = document.createElement('h3');
+    gameTitle.textContent = game[0];
+
+    const gameDesc = document.createElement('p');
+    gameDesc.textContent = game[1];
+
+    bubble.appendChild(gameTitle);
+    bubble.appendChild(gameDesc);
+
+    // Click on bubble handler
+    bubble.addEventListener('click', () => {
+      handleGameSelection(index);
+    });
+
+    gamesList.appendChild(bubble);
+  });
+
+  modal.appendChild(gamesList);
+
+  // Append overlay and modal to body
+  document.body.appendChild(overlay);
+  document.body.appendChild(modal);
+
+  return modal;
+}
+
+// Open modal function
+function openGamesModal() {
+  const overlay = document.getElementById('games-modal-overlay') || (() => {
+    const el = document.createElement('div');
+    el.id = 'games-modal-overlay';
+    document.body.appendChild(el);
+    return el;
+  })();
+
+  const modal = createGamesModal();
+
+  // Show modal and overlay
+  overlay.style.display = 'block';
+  modal.style.display = 'block';
+
+  // Sync dark mode class
+  if (isDarkMode()) {
+    modal.classList.add('dark-mode');
+    overlay.classList.add('dark-mode');
+  } else {
+    modal.classList.remove('dark-mode');
+    overlay.classList.remove('dark-mode');
+  }
+}
+
+// Close modal function
+function closeGamesModal() {
+  const modal = document.getElementById('games-modal');
+  const overlay = document.getElementById('games-modal-overlay');
+  if (modal) modal.style.display = 'none';
+  if (overlay) overlay.style.display = 'none';
+}
+
+// Minimize games modal (same as close here)
+function minimizeGamesModal() {
+  closeGamesModal();
+}
+
+// Maximize chatbot container function
+function maximizeChatbot() {
+  const chatbot = document.getElementById('chatbot');
+  const openBtn = document.getElementById('open-chat-btn');
+
+  chatbot.style.display = 'flex';
+  openBtn.style.display = 'none';
+
+  // Center the chatbot (already fixed position, so just show)
+  chatbot.style.bottom = '20px';
+  chatbot.style.right = '20px';
+}
+
+// Send text to chatbot input and trigger send
+function sendTextToChatbot(text) {
+  const input = document.getElementById('input');
+  const sendBtn = document.getElementById('send-btn');
+
+  input.value = text;
+
+  // Trigger the send button click
+  sendBtn.click();
+}
+
+// Handle game bubble click
+function handleGameSelection(index) {
+  if (index < 0 || index >= games.length) return;
+
+  const [gameName, gameDescription, gamePrompt] = games[index];
+
+  // Construct the combined prompt message
+  const combinedMessage = `Selected: ${gameName}\nDescription: ${gameDescription}\nPrompt: ${gamePrompt}`;
+
+  // Minimize games modal
+  minimizeGamesModal();
+
+  // Maximize chatbot
+  maximizeChatbot();
+
+  // Send the message to chatbot input and send
+  sendTextToChatbot(combinedMessage);
+}
+
+// Attach event listener to Games card in main page
+function setupGamesCardListener() {
+  // Find the Games card div by title text (since it has no ID)
+  const featureCards = document.querySelectorAll('.feature-card h2');
+  featureCards.forEach(h2 => {
+    if (h2.textContent.trim().toLowerCase() === 'games') {
+      h2.parentElement.addEventListener('click', () => {
+        openGamesModal();
+      });
+    }
+  });
+}
+
+// Initialize all
+function initGamesFeature() {
+  setupGamesCardListener();
+
+  // Also close modal if clicking outside modal (on overlay)
+  document.body.addEventListener('click', e => {
+    const modal = document.getElementById('games-modal');
+    const overlay = document.getElementById('games-modal-overlay');
+
+    if (overlay && overlay.style.display === 'block') {
+      if (e.target === overlay) {
+        closeGamesModal();
+      }
+    }
+  });
+}
+
+// Run on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  initGamesFeature();
+});
+
+
+
+</script>
+
+</body>
+</html>
